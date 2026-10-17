@@ -2,3 +2,7 @@
 - [x] Restore the existing static website and update the IMU-CET page with all prospectus details.
 - [x] Verify fees, schedule, exam pattern and direct-file browsing.
 - [x] Package and inspect the complete static website ZIP.
+
+# Adaptive navigation
+- [ ] Keep fitting navigation links inline at every screen width and put the remaining links in an accessible overflow drawer.
+- [ ] Verify overflow navigation across desktop, tablet and mobile widths.
