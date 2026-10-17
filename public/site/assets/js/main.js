@@ -12,95 +12,88 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Mobile nav toggle
+  // Keep fitting links inline at every width; overflow uses the same drawer.
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
-  if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      links.classList.toggle('open');
-      const expanded = links.classList.contains('open');
-      toggle.setAttribute('aria-expanded', expanded);
-    });
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
-  }
-
-  // Adaptive navigation — show what fits, overflow into a "More" dropdown.
-  // Links are hidden from the left ("Home" first).
-  if (links) {
-    var items = Array.prototype.slice.call(links.querySelectorAll(':scope > li'));
-    var more = document.createElement('li');
+  if (nav && links) {
+    nav.classList.add('adaptive');
+    const items = Array.from(links.children);
+    const more = document.createElement('li');
     more.className = 'nav-more';
     more.hidden = true;
-    more.innerHTML = '<button type="button" aria-expanded="false" aria-haspopup="true">More' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
-      '</button><ul class="nav-more-menu"></ul>';
+    more.innerHTML = '<button type="button" aria-expanded="false" aria-controls="nav-overflow">See more' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>' +
+      '</button><ul class="nav-more-menu" id="nav-overflow" inert></ul>';
     links.appendChild(more);
-    var moreBtn = more.querySelector('button');
-    var moreMenu = more.querySelector('.nav-more-menu');
-
-    moreBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = more.classList.toggle('open');
-      moreBtn.setAttribute('aria-expanded', open);
-    });
-    document.addEventListener('click', function () {
-      more.classList.remove('open');
-      moreBtn.setAttribute('aria-expanded', 'false');
-    });
-
-    var widths = null;
-    var measure = function () {
-      widths = items.map(function (li) { return li.getBoundingClientRect().width; });
+    const moreBtn = more.querySelector('button');
+    const moreMenu = more.querySelector('ul');
+    const setOpen = (open, restoreFocus = false) => {
+      more.classList.toggle('open', open);
+      moreBtn.setAttribute('aria-expanded', String(open));
+      moreMenu.inert = !open;
+      if (toggle) toggle.setAttribute('aria-expanded', String(open));
+      if (restoreFocus) moreBtn.focus();
     };
+    moreBtn.addEventListener('click', () => {
+      setOpen(!more.classList.contains('open'));
+    });
+    if (toggle) {
+      toggle.setAttribute('aria-controls', 'nav-overflow');
+      toggle.addEventListener('click', () => setOpen(!more.classList.contains('open')));
+    }
+    document.addEventListener('click', (event) => {
+      if (!more.contains(event.target) && !(toggle && toggle.contains(event.target))) setOpen(false);
+    });
+    moreMenu.addEventListener('click', (event) => {
+      if (event.target.closest('a')) setOpen(false);
+    });
+    nav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && more.classList.contains('open')) setOpen(false, true);
+      if (event.key === 'ArrowDown' && event.target === moreBtn) {
+        event.preventDefault();
+        setOpen(true);
+        const first = moreMenu.querySelector('a');
+        if (first) first.focus();
+      }
+    });
 
-    var layout = function () {
-      var container = document.querySelector('.nav .container');
-      if (!container) return;
-      // Reset to full desktop list before measuring.
-      items.forEach(function (li) { li.hidden = false; });
+    const layout = () => {
+      const container = nav.querySelector('.container');
+      const primary = links.parentElement;
+      if (!container || !primary) return;
+      const focused = document.activeElement;
+      const wasOpen = more.classList.contains('open');
+      items.forEach(item => { item.hidden = false; links.insertBefore(item, more); });
       more.hidden = true;
-      more.classList.remove('open');
-      moreMenu.innerHTML = '';
-      items.forEach(function (li) { links.insertBefore(li, more); });
-
-      if (window.innerWidth <= 900) return; // mobile drawer handles the rest
-
-      if (!widths || widths.some(function (w) { return !w; })) measure();
-
-      var brand = container.querySelector('.brand');
-      var cta = container.querySelector('.nav-cta');
-      var gap = 6;
-      var available = container.clientWidth
-        - (brand ? brand.getBoundingClientRect().width : 0)
-        - (cta ? cta.getBoundingClientRect().width : 0)
-        - 56;
-
-      var total = widths.reduce(function (a, b) { return a + b + gap; }, 0);
-      if (total <= available) return;
-
+      const gap = parseFloat(getComputedStyle(links).gap) || 0;
+      const widths = items.map(item => item.getBoundingClientRect().width);
+      const available = primary.getBoundingClientRect().width;
+      let total = widths.reduce((sum, width) => sum + width, 0) + Math.max(0, items.length - 1) * gap;
+      if (total <= available) {
+        setOpen(false);
+        return;
+      }
       more.hidden = false;
-      var moreWidth = more.getBoundingClientRect().width || 96;
-      available -= (moreWidth + gap);
-
-      var hideCount = 0;
-      while (hideCount < items.length - 1 && total > available) {
-        total -= (widths[hideCount] + gap);
-        hideCount++;
+      const moreWidth = more.getBoundingClientRect().width;
+      let overflowCount = 0;
+      // Preserve the existing priority: move Home and other leftmost links first.
+      while (overflowCount < items.length && total + gap + moreWidth > available) {
+        total -= widths[overflowCount] + (overflowCount < items.length - 1 ? gap : 0);
+        overflowCount++;
       }
-      for (var i = 0; i < hideCount; i++) {
-        items[i].hidden = true;
-        var clone = document.createElement('li');
-        clone.innerHTML = items[i].innerHTML;
-        moreMenu.appendChild(clone);
+      items.slice(0, overflowCount).forEach(item => moreMenu.appendChild(item));
+      setOpen(wasOpen);
+      if (focused && focused !== document.body && nav.contains(focused)) {
+        if (!wasOpen && moreMenu.contains(focused)) moreBtn.focus();
+        else focused.focus();
       }
-      if (!moreMenu.children.length) more.hidden = true;
     };
-
-    var raf;
-    var schedule = function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(layout); };
+    let raf;
+    const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(layout); };
     window.addEventListener('resize', schedule, { passive: true });
     window.addEventListener('load', schedule);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { widths = null; layout(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    if (window.ResizeObserver) new ResizeObserver(schedule).observe(nav.querySelector('.container'));
     layout();
   }
 
