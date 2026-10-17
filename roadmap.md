@@ -4,5 +4,5 @@
 - [x] Package and inspect the complete static website ZIP.
 
 # Adaptive navigation
-- [ ] Keep fitting navigation links inline at every screen width and put the remaining links in an accessible overflow drawer.
-- [ ] Verify overflow navigation across desktop, tablet and mobile widths.
+- [x] Keep fitting navigation links inline at every screen width and put the remaining links in an accessible overflow drawer.
+- [x] Verify overflow navigation across desktop, tablet and mobile widths.
