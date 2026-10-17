@@ -7,6 +7,6 @@
   3. Add the file name to the list below (newest first). Save, then refresh the page.
 */
 var CAROUSEL_IMAGES = [
-  "2026-11-02-meetup.jpg",
-  "2026-11-01-party.jpg"
+  "2026-10-01-courses.jpg",
+  "2026-09-15-office.png"
 ];
