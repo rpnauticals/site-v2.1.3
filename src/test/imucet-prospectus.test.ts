@@ -1,9 +1,8 @@
 import { readFileSync } from "node:fs";
-import { JSDOM } from "jsdom";
 import { describe, expect, it } from "vitest";
 
 const html = readFileSync("public/site/courses/imucet.html", "utf8");
-const document = new JSDOM(html).window.document;
+const document = new DOMParser().parseFromString(html, "text/html");
 
 describe("IMU-CET prospectus course rules", () => {
   for (const [subject, count] of [["Physics", 50], ["Chemistry", 20], ["Mathematics", 50], ["English", 40], ["Aptitude & GK", 40]] as const) {

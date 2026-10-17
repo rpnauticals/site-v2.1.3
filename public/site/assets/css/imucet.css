@@ -84,6 +84,14 @@
   .course-services, .course-pathway, .course-included ul { grid-template-columns: 1fr; }
   .subject-table th, .subject-table td { padding: 12px 8px; font-size: .8rem; }
   .course-table caption { padding: 16px 12px; }
+  .package-table { min-width: 0; }
+  .package-table thead { display: none; }
+  .package-table tbody, .package-table tr { display: block; }
+  .package-table tbody tr { padding: 16px; border-top: 1px solid var(--slate-200); }
+  .package-table tbody th, .package-table tbody td { display: block; width: auto; padding: 4px 0; border: 0; }
+  .package-table tbody th::before { content: "Package "; }
+  .package-table td:nth-child(2), .package-table td:last-child { width: auto; }
+  .package-table td:last-child { margin-top: 10px; border-top: 1px solid var(--slate-200); padding-top: 12px; }
   .imucet-page .chatbot-fab { width: 48px; height: 48px; right: 12px; bottom: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
