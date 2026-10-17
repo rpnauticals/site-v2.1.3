@@ -13,3 +13,4 @@
 - Use the TanStack index only to open the static home page in the hosted preview; the downloadable site must not depend on the preview framework.
 - Keep IMU-CET-specific presentation in its own static stylesheet and test numeric course rules against the shipped HTML; this avoids changing unrelated pages.
 - Serve the static site's script directory through a narrowly scoped dev-only Vite middleware; TanStack's development handler otherwise intercepts these public JavaScript requests.
+- Keep adaptive navigation inline at all widths and move original overflow link elements into one shared drawer; this preserves link accessibility without duplicate navigation entries.
