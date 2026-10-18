@@ -96,4 +96,11 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .imucet-page *, .imucet-page *::before, .imucet-page *::after { animation: none; transition: none; scroll-behavior: auto; }
-}
+}.course-mottos { list-style: none; padding: 0; margin: 0 0 32px; display: flex; flex-wrap: wrap; gap: 10px; }
+.course-mottos li { background: var(--slate-100); color: var(--navy-900); font-weight: 600; font-size: .85rem; padding: 8px 14px; border-radius: 999px; }
+.course-tags { font-weight: 700; color: var(--royal-600); letter-spacing: .04em; }
+.salary-table { max-width: 640px; }
+.eto-then { margin-top: 24px; }
+.course-pathway:has(> li:nth-child(4):last-child) { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 850px) { .course-pathway:has(> li:nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .course-pathway:has(> li:nth-child(4):last-child) { grid-template-columns: 1fr; } }
