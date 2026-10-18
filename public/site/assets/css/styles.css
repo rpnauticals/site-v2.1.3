@@ -997,14 +997,15 @@ a, .val, .contact-item .val, .footer li, blockquote, p { overflow-wrap: anywhere
 .cert-preview a:hover img { transform: scale(1.01); }
 .cert-preview img { transition: transform .3s ease; }
 
-/* ===== Home page photo carousel ===== */
-.photo-carousel{position:relative;width:100%;overflow:hidden;background:#0b1b2b}
-.photo-carousel .pc-track{display:flex;transition:transform .7s ease}
-.photo-carousel .pc-slide{flex:0 0 100%;margin:0;position:relative;height:clamp(260px,55vw,560px)}
-.photo-carousel .pc-slide img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-carousel figcaption{position:absolute;left:16px;bottom:16px;background:rgba(0,0,0,.6);color:#fff;font-size:.85rem;padding:6px 12px;border-radius:6px}
-.photo-carousel .pc-prev,.photo-carousel .pc-next{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(0,0,0,.45);color:#fff;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer}
-.photo-carousel .pc-prev{left:12px}.photo-carousel .pc-next{right:12px}
-.photo-carousel .pc-dots{position:absolute;right:16px;bottom:20px;display:flex;gap:6px}
-.photo-carousel .pc-dots button{width:9px;height:9px;border-radius:50%;border:0;background:rgba(255,255,255,.5);cursor:pointer;padding:0}
-.photo-carousel .pc-dots button.active{background:#fff}
+/* ===== Home page photo carousel (continuous ticker, uncropped photos) ===== */
+.photo-carousel{position:relative;width:100%;overflow:hidden;background:#0b1b2b;--pc-h:clamp(220px,38vw,420px)}
+.photo-carousel .pc-track{display:flex;width:max-content;height:var(--pc-h);animation:pc-scroll var(--pc-dur,40s) linear infinite}
+.photo-carousel:hover .pc-track{animation-play-state:paused}
+.photo-carousel .pc-set{display:flex;height:100%}
+.photo-carousel .pc-slide{flex:0 0 auto;margin:0;position:relative;height:100%}
+.photo-carousel .pc-slide img{height:100%;width:auto;display:block}
+.photo-carousel figcaption{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.6);color:#fff;font-size:.8rem;padding:5px 10px;border-radius:6px;white-space:nowrap}
+@keyframes pc-scroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--pc-shift,50%)))}}
+@media (prefers-reduced-motion:reduce){.photo-carousel .pc-track{animation:none}.photo-carousel{overflow-x:auto}}
+
+.footer-udyam{font-size:.72rem;opacity:.65;margin:12px 0 0;text-align:center;line-height:1.5}
