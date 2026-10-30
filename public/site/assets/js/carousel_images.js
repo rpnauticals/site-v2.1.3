@@ -9,6 +9,6 @@
 var CAROUSEL_IMAGES = [
   "2026-10-01-courses.jpg",
   "2026-09-15-office.png",
-  "2026-10=30-placement.png",
+  "2026-10-30-placement.png",
   //"2026-10-18-Women-in-Navy.mp4"
 ];
