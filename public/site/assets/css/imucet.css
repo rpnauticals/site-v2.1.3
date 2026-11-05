@@ -105,76 +105,74 @@
 @media (max-width: 850px) { .course-pathway:has(> li:nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px) { .course-pathway:has(> li:nth-child(4):last-child) { grid-template-columns: 1fr; } }
 
-/* GME / DME pathway option tabs */
-.course-option-tabs {
+.pathway-steps-5 { grid-template-columns: repeat(5, 1fr); }
+.salary-progression {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 28px;
 }
-.course-option-tab {
-  appearance: none;
-  border: 1px solid var(--slate-200);
+.salary-progression li {
+  position: relative;
   background: var(--white);
-  border-radius: 10px;
-  padding: 18px 20px;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
-  color: inherit;
-  font: inherit;
+  border: 1px solid var(--slate-200);
+  border-radius: 12px;
+  padding: 22px 20px 20px;
+  min-height: 100%;
 }
-.course-option-tab:hover { border-color: var(--royal-500); }
-.course-option-tab:focus-visible {
-  outline: 2px solid var(--cyan-500);
-  outline-offset: 3px;
+.salary-progression li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 12px 0 0 12px;
+  background: linear-gradient(180deg, var(--cyan-500), var(--royal-600));
 }
-.course-option-tab.is-active {
-  border-color: var(--navy-900);
-  box-shadow: 0 10px 28px rgba(7, 26, 61, .12);
-  background: linear-gradient(180deg, #fff 0%, #f4f7fb 100%);
-}
-.course-option-tab .tab-kicker {
-  display: block;
-  font-size: .75rem;
+.salary-step {
+  display: inline-block;
+  font-size: .72rem;
   font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: .08em;
   color: var(--royal-600);
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
-.course-option-tab .tab-title {
+.salary-rank {
   display: block;
   font-family: Sora, Inter, sans-serif;
-  font-size: 1.55rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--navy-900);
-  line-height: 1.15;
+  line-height: 1.3;
+  margin-bottom: 14px;
+  min-height: 2.6em;
 }
-.course-option-tab .tab-sub {
+.salary-amount {
+  display: block;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  color: var(--royal-600);
+  font-weight: 700;
+}
+.salary-period {
   display: block;
   margin-top: 6px;
-  color: var(--slate-600);
-  font-size: .92rem;
+  font-size: .85rem;
+  color: var(--slate-500);
 }
-.course-option-panel[hidden] { display: none; }
-.course-option-intro {
-  margin-bottom: 24px;
-  padding: 22px 24px;
-  border-left: 3px solid var(--cyan-500);
-  background: var(--white);
-  border-radius: 0 10px 10px 0;
+@media (max-width: 1100px) {
+  .pathway-steps-5 { grid-template-columns: repeat(3, 1fr); }
+  .salary-progression { grid-template-columns: repeat(2, 1fr); }
 }
-.course-option-intro h3 { margin: 0 0 10px; }
-.course-option-intro p { margin: 0; }
-.pathway-steps-5 { grid-template-columns: repeat(5, 1fr); }
-@media (max-width: 1100px) { .pathway-steps-5 { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 850px) {
-  .course-option-tabs { grid-template-columns: 1fr; }
   .pathway-steps-5 { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 540px) {
-  .pathway-steps-5 { grid-template-columns: 1fr; }
-  .course-option-tab { padding: 16px; }
-  .course-option-tab .tab-title { font-size: 1.35rem; }
+  .pathway-steps-5,
+  .salary-progression { grid-template-columns: 1fr; }
+  .salary-rank { min-height: 0; }
+  .salary-amount { font-size: 1.25rem; }
 }
