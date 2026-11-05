@@ -176,3 +176,54 @@
   .salary-rank { min-height: 0; }
   .salary-amount { font-size: 1.25rem; }
 }
+
+/* Course brochure download block */
+.course-brochure {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 28px;
+  border: 1px solid var(--slate-200);
+  border-radius: 14px;
+  background: var(--white);
+}
+.course-brochure-preview {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--slate-200);
+  box-shadow: 0 14px 34px rgba(7, 26, 61, .12);
+  transition: transform .25s ease;
+}
+.course-brochure-preview:hover { transform: translateY(-3px); }
+.course-brochure-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top center;
+}
+.course-brochure-meta {
+  margin: 0 0 10px;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--royal-600);
+}
+.course-brochure-copy h3 { margin: 0 0 12px; }
+.course-brochure-copy p { margin: 0 0 22px; max-width: 46ch; }
+.course-brochure .hero-actions { margin: 0; }
+@media (max-width: 850px) {
+  .course-brochure {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 22px;
+  }
+  .course-brochure-preview { max-width: 260px; }
+}
+@media (max-width: 540px) {
+  .course-brochure-preview { max-width: 220px; }
+}
