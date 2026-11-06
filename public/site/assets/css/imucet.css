@@ -227,3 +227,9 @@
 @media (max-width: 540px) {
   .course-brochure-preview { max-width: 220px; }
 }
+
+
+.salary-progression-2 { grid-template-columns: repeat(2, minmax(0, 360px)); }
+@media (max-width: 850px) {
+  .salary-progression-2 { grid-template-columns: 1fr; }
+}
