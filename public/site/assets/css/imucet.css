@@ -233,3 +233,95 @@
 @media (max-width: 850px) {
   .salary-progression-2 { grid-template-columns: 1fr; }
 }
+
+/* Pathway option tabs (GP Rating / multi-path courses) */
+.course-option-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.course-option-tabs-3 { grid-template-columns: repeat(3, 1fr); }
+.course-option-tab {
+  appearance: none;
+  border: 1px solid var(--slate-200);
+  background: var(--white);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  color: inherit;
+  font: inherit;
+}
+.course-option-tab:hover { border-color: var(--royal-500); }
+.course-option-tab:focus-visible {
+  outline: 2px solid var(--cyan-500);
+  outline-offset: 3px;
+}
+.course-option-tab.is-active {
+  border-color: var(--navy-900);
+  box-shadow: 0 10px 28px rgba(7, 26, 61, .12);
+  background: linear-gradient(180deg, #fff 0%, #f4f7fb 100%);
+}
+.course-option-tab .tab-kicker {
+  display: block;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--royal-600);
+  margin-bottom: 6px;
+}
+.course-option-tab .tab-title {
+  display: block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy-900);
+  line-height: 1.2;
+}
+.course-option-tab .tab-sub {
+  display: block;
+  margin-top: 6px;
+  color: var(--slate-600);
+  font-size: .9rem;
+}
+.course-option-panel[hidden] { display: none; }
+.course-option-intro {
+  margin-bottom: 24px;
+  padding: 22px 24px;
+  border-left: 3px solid var(--cyan-500);
+  background: var(--white);
+  border-radius: 0 10px 10px 0;
+}
+.course-option-intro h3 { margin: 0 0 10px; }
+.course-option-intro p { margin: 0; }
+.pathway-steps-6 { grid-template-columns: repeat(3, 1fr); }
+.career-path-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.career-path-chips li {
+  background: var(--slate-100);
+  color: var(--navy-900);
+  font-weight: 600;
+  font-size: .88rem;
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+@media (max-width: 950px) {
+  .course-option-tabs-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 850px) {
+  .course-option-tabs { grid-template-columns: 1fr; }
+  .pathway-steps-6 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .pathway-steps-6 { grid-template-columns: 1fr; }
+  .course-option-tab .tab-title { font-size: 1.15rem; }
+}
