@@ -18,18 +18,37 @@
   }
 
   function normalize(s) {
-    return String(s || "").replace(/\s+/g, " ").trim();
+    return String(s || "")
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201C\u201D]/g, '"')
+      .replace(/\u2013/g, "-")
+      .replace(/\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function lookup(key) {
+    var map = dict();
+    if (map[key]) return map[key];
+    var n = normalize(key);
+    if (map[n]) return map[n];
+    // try em-dash / hyphen variants
+    var dashed = n.replace(/—/g, "-");
+    if (map[dashed]) return map[dashed];
+    var em = n.replace(/-/g, "—");
+    if (map[em]) return map[em];
+    return null;
   }
 
   function translateString(value, lang) {
     if (lang !== "hi") return value;
     var key = normalize(value);
     if (!key) return value;
-    var hi = dict()[key];
+    var hi = lookup(value) || lookup(key);
     if (!hi) return value;
     // Preserve leading/trailing whitespace from original
-    var lead = value.match(/^\s*/)?.[0] || "";
-    var trail = value.match(/\s*$/)?.[0] || "";
+    var lead = (value.match(/^\s*/) || [""])[0];
+    var trail = (value.match(/\s*$/) || [""])[0];
     return lead + hi + trail;
   }
 
