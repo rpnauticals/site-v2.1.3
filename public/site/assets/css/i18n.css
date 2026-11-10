@@ -1,0 +1,174 @@
+/* Language popup + switcher */
+
+.i18n-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(5, 18, 46, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+.i18n-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.i18n-modal {
+  width: min(440px, 100%);
+  background: #fff;
+  border-radius: 22px;
+  border: 1px solid rgba(16, 53, 122, 0.1);
+  box-shadow: 0 30px 80px rgba(5, 18, 46, 0.35);
+  padding: 28px 26px 24px;
+  text-align: center;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.28s ease;
+}
+
+.i18n-overlay.is-open .i18n-modal {
+  transform: translateY(0) scale(1);
+}
+
+.i18n-modal-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: var(--royal-600, #1e4bd6);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.i18n-modal h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-display, "Sora", sans-serif);
+  color: var(--navy-900, #071a3d);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+}
+
+.i18n-modal p {
+  margin: 0 0 22px;
+  color: var(--slate-500, #64748b);
+  font-size: 0.98rem;
+}
+
+.i18n-lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.i18n-lang-btn {
+  appearance: none;
+  border: 1.5px solid var(--slate-200, #e2e8f0);
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 14px;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.i18n-lang-btn:hover,
+.i18n-lang-btn:focus-visible {
+  border-color: var(--royal-500, #2f66ff);
+  box-shadow: 0 0 0 3px rgba(47, 102, 255, 0.14);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.i18n-lang-btn strong {
+  display: block;
+  color: var(--navy-900, #071a3d);
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+
+.i18n-lang-btn span {
+  display: block;
+  color: var(--slate-500, #64748b);
+  font-size: 0.86rem;
+}
+
+.i18n-lang-btn.is-hi {
+  background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+}
+
+.i18n-switcher {
+  position: fixed;
+  left: 18px;
+  bottom: 22px;
+  z-index: 9400;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(7, 26, 61, 0.92);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(5, 18, 46, 0.28);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.i18n-switcher:hover,
+.i18n-switcher:focus-visible {
+  background: #0b2657;
+  outline: none;
+}
+
+.i18n-switcher-flag {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.72rem;
+}
+
+html[data-lang="hi"] body {
+  font-family: "Noto Sans Devanagari", var(--font-sans, "Inter", sans-serif);
+}
+
+html[data-lang="hi"] h1,
+html[data-lang="hi"] h2,
+html[data-lang="hi"] h3,
+html[data-lang="hi"] .brand,
+html[data-lang="hi"] .btn {
+  font-family: "Noto Sans Devanagari", var(--font-display, "Sora", sans-serif);
+}
+
+@media (max-width: 640px) {
+  .i18n-switcher {
+    left: 12px;
+    bottom: 88px; /* sit above WhatsApp FAB */
+  }
+
+  .i18n-lang-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .i18n-overlay,
+  .i18n-modal,
+  .i18n-lang-btn {
+    transition: none;
+  }
+}

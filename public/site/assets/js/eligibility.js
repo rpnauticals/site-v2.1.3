@@ -88,6 +88,9 @@
     box.setAttribute("role", "radiogroup");
     box.setAttribute("aria-label", title.textContent);
     updateChrome();
+    if (window.RP_I18N && typeof window.RP_I18N.refresh === "function") {
+      window.RP_I18N.refresh();
+    }
   }
 
   function currentField() {
@@ -102,7 +105,10 @@
     const total = maxStep();
     const pct = Math.round(((state.step - 1) / total) * 100);
     els.progressFill.style.width = `${Math.max(8, Math.round((state.step / total) * 100))}%`;
-    els.progressLabel.textContent = `Step ${state.step} of ${total}`;
+    els.progressLabel.textContent =
+      (window.RP_I18N && window.RP_I18N.getLang && window.RP_I18N.getLang() === "hi")
+        ? `चरण ${state.step} / ${total}`
+        : `Step ${state.step} of ${total}`;
     els.progressBar.setAttribute("aria-valuenow", String(state.step));
     els.progressBar.setAttribute("aria-valuemax", String(total));
 
@@ -161,14 +167,21 @@
     renderStepOptions();
   }
 
+  function isHi() {
+    return !!(window.RP_I18N && window.RP_I18N.getLang && window.RP_I18N.getLang() === "hi");
+  }
+
   function statusMeta(status) {
     if (status === "eligible") {
-      return { label: "Eligible", className: "is-eligible" };
+      return { label: isHi() ? "योग्य" : "Eligible", className: "is-eligible" };
     }
     if (status === "potential") {
-      return { label: "Potentially Eligible", className: "is-potential" };
+      return {
+        label: isHi() ? "संभावित योग्य" : "Potentially Eligible",
+        className: "is-potential",
+      };
     }
-    return { label: "Not Eligible", className: "is-ineligible" };
+    return { label: isHi() ? "अयोग्य" : "Not Eligible", className: "is-ineligible" };
   }
 
   function careerHtml(path) {
@@ -256,11 +269,11 @@
           <li><span>Education Branch</span><strong>${needsBranch() ? labels.branch : "Not applicable"}</strong></li>
         </ul>
         <p class="elig-summary-counts">
-          <span class="is-eligible">${report.summary.eligible} Eligible</span>
-          <span class="is-potential">${report.summary.potential} Potentially Eligible</span>
-          <span class="is-ineligible">${report.summary.ineligible} Not Eligible</span>
+          <span class="is-eligible">${report.summary.eligible} ${isHi() ? "योग्य" : "Eligible"}</span>
+          <span class="is-potential">${report.summary.potential} ${isHi() ? "संभावित योग्य" : "Potentially Eligible"}</span>
+          <span class="is-ineligible">${report.summary.ineligible} ${isHi() ? "अयोग्य" : "Not Eligible"}</span>
         </p>
-        <button type="button" class="btn btn-outline" id="elig-edit-answers">Change answers</button>
+        <button type="button" class="btn btn-outline" id="elig-edit-answers">${isHi() ? "उत्तर बदलें" : "Change answers"}</button>
       </div>`;
 
     const eligible = report.results.filter((r) => r.status === "eligible");
@@ -270,21 +283,21 @@
     els.resultsList.innerHTML = `
       ${
         eligible.length
-          ? `<section class="elig-result-group"><h2>Eligible courses</h2><div class="elig-course-grid">${eligible
+          ? `<section class="elig-result-group"><h2>${isHi() ? "योग्य कोर्सेज़" : "Eligible courses"}</h2><div class="elig-course-grid">${eligible
               .map((r) => courseCard(r, byId))
               .join("")}</div></section>`
           : ""
       }
       ${
         potential.length
-          ? `<section class="elig-result-group"><h2>Potentially eligible</h2><p class="elig-group-note">These need verification, missing marks, appearing status, or institute-specific confirmation.</p><div class="elig-course-grid">${potential
+          ? `<section class="elig-result-group"><h2>${isHi() ? "संभावित योग्य" : "Potentially eligible"}</h2><p class="elig-group-note">${isHi() ? "इनके लिए सत्यापन, अधूरे मार्क्स, अपीयरिंग स्थिति या संस्थान-विशिष्ट पुष्टि की जरूरत है।" : "These need verification, missing marks, appearing status, or institute-specific confirmation."}</p><div class="elig-course-grid">${potential
               .map((r) => courseCard(r, byId))
               .join("")}</div></section>`
           : ""
       }
       <section class="elig-result-group">
         <details class="elig-ineligible-details" ${ineligible.length && !eligible.length && !potential.length ? "open" : ""}>
-          <summary>Not eligible (${ineligible.length})</summary>
+          <summary>${isHi() ? "अयोग्य" : "Not eligible"} (${ineligible.length})</summary>
           <div class="elig-course-grid" style="margin-top:24px;">${ineligible.map((r) => courseCard(r, byId)).join("")}</div>
         </details>
       </section>
@@ -292,6 +305,9 @@
     `;
 
     $("#elig-edit-answers")?.addEventListener("click", resetToForm);
+    if (window.RP_I18N && typeof window.RP_I18N.refresh === "function") {
+      window.RP_I18N.refresh();
+    }
     els.results.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 

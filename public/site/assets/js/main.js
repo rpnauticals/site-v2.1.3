@@ -184,4 +184,21 @@
       body.scrollTop = body.scrollHeight + 200;
     });
   }
+
+  // English / Hindi language popup + translator (loads after main so "More" nav exists)
+  (function loadI18n() {
+    if (window.RP_I18N) return;
+    var current = document.querySelector('script[src*="main.js"]');
+    var base = current && current.src ? current.src.replace(/main\.js(?:\?.*)?$/, '') : 'assets/js/';
+    function inject(src, onload) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.defer = true;
+      if (onload) s.onload = onload;
+      document.head.appendChild(s);
+    }
+    inject(base + 'i18n_dict.js', function () {
+      inject(base + 'i18n.js');
+    });
+  })();
 })();
