@@ -510,21 +510,25 @@
       shortName: "Cruise Ship Careers",
       category: "Cruise Ship Careers",
       department: "cruise",
-      duration: "Pathway-specific hospitality / professional training",
-      requiredQualificationLabel: "Varies by role — counselling required",
+      duration: "Pathway-specific training (Photography · Gym Trainer)",
+      requiredQualificationLabel: "Varies by pathway — counselling required",
       description:
-        "Cruise hiring is often separate from cargo/tanker cadet routes and may need hospitality or role-specific training. RP Nauticals can guide the right pathway.",
+        "Cruise hiring is often separate from cargo/tanker cadet routes. RP Nauticals guides Photography and Gym Trainer pathways with training and placement support.",
       image: "assets/images/placeholders/ship-life.jpg",
-      href: "contact.html",
+      href: "courses/cruise.html",
       careerPath: [
-        { role: "Cruise trainee / entry role (role-specific)", type: "direct" },
-        { role: "Shipboard professional roles (hospitality / support)", type: "promotion" },
+        { role: "Cruise Ship Photographer / related photo roles", type: "direct" },
+        { role: "Cruise Ship Gym Trainer → Fitness Manager", type: "promotion" },
       ],
       alternatives: ["gp-rating"],
-      sources: ["Site FAQs (cruise hiring often separate; hospitality-related training)"],
+      sources: [
+        "RP Nauticals Cruise Ship Photography brochure",
+        "RP Nauticals Cruise Ship Gym Trainer brochure",
+        "Site FAQs (cruise hiring often separate; hospitality-related training)",
+      ],
       evaluate(profile, helpers) {
         const missing = [
-          "Role-specific training / hospitality requirements",
+          "Role-specific training / certification requirements",
           "Company-wise entry criteria",
         ];
         if (!helpers.isAtLeast(profile.qualification, "tenth")) {
@@ -535,8 +539,8 @@
         return helpers.result(
           "potential",
           [
-            "Cruise pathways are role-specific and not auto-cleared from academic selections alone.",
-            "Book counselling to match hospitality / professional cruise options.",
+            "Cruise pathways are role-specific (Photography or Gym Trainer) and not auto-cleared from academic selections alone.",
+            "Book counselling to match Photography / Gym Trainer cruise options.",
           ],
           missing
         );
