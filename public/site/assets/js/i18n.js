@@ -195,6 +195,11 @@
     saveLang(lang);
     applyLanguage(lang);
     closePopup();
+    document.documentElement.classList.add("i18n-ready");
+    document.body.classList.add("lang-just-chosen");
+    setTimeout(function () {
+      document.body.classList.remove("lang-just-chosen");
+    }, 900);
   }
 
   function updateSwitcherLabel() {

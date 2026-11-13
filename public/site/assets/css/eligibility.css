@@ -6,8 +6,22 @@
   background:
     radial-gradient(1200px 480px at 10% -10%, rgba(47, 102, 255, 0.16), transparent 60%),
     radial-gradient(900px 420px at 90% 0%, rgba(34, 211, 238, 0.12), transparent 55%),
-    var(--grad-soft);
+    linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
   border-block: 1px solid rgba(16, 53, 122, 0.08);
+}
+.elig-teaser::before {
+  content: "";
+  position: absolute;
+  inset: -20% auto auto 60%;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47,102,255,.12), transparent 70%);
+  animation: elig-float 9s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes elig-float {
+  0%, 100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-18px, 14px, 0); }
 }
 
 .elig-teaser-grid {
