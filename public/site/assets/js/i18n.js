@@ -175,13 +175,41 @@
     }
   }
 
+  function focusNoScroll(el) {
+    if (!el || typeof el.focus !== "function") return;
+    try {
+      el.focus({ preventScroll: true });
+    } catch (e) {
+      el.focus();
+    }
+  }
+
+  function readScroll() {
+    return {
+      x: window.scrollX || window.pageXOffset || 0,
+      y: window.scrollY || window.pageYOffset || 0,
+    };
+  }
+
+  function restoreScroll(pos) {
+    if (!pos) return;
+    window.scrollTo(pos.x, pos.y);
+    // Translation reflows text; restore again after paint so the page stays put.
+    requestAnimationFrame(function () {
+      window.scrollTo(pos.x, pos.y);
+    });
+  }
+
   function openPopup() {
     var overlay = document.getElementById("rp-i18n-overlay");
     if (!overlay) return;
+    var pos = readScroll();
     overlay.classList.add("is-open");
     overlay.setAttribute("aria-hidden", "false");
     var first = overlay.querySelector(".i18n-lang-btn");
-    if (first) first.focus();
+    // Overlay lives at the end of <body>; native focus() would jump the page down.
+    focusNoScroll(first);
+    restoreScroll(pos);
   }
 
   function closePopup() {
@@ -192,14 +220,27 @@
   }
 
   function chooseLang(lang) {
+    var pos = readScroll();
+    var active = document.activeElement;
+    if (active && overlayContains(active) && typeof active.blur === "function") {
+      active.blur();
+    }
     saveLang(lang);
     applyLanguage(lang);
     closePopup();
     document.documentElement.classList.add("i18n-ready");
     document.body.classList.add("lang-just-chosen");
+    focusNoScroll(document.getElementById("rp-i18n-switcher"));
+    restoreScroll(pos);
     setTimeout(function () {
       document.body.classList.remove("lang-just-chosen");
+      restoreScroll(pos);
     }, 900);
+  }
+
+  function overlayContains(el) {
+    var overlay = document.getElementById("rp-i18n-overlay");
+    return !!(overlay && el && overlay.contains(el));
   }
 
   function updateSwitcherLabel() {
