@@ -202,7 +202,12 @@ p  { color: var(--slate-700); }
   background: linear-gradient(135deg, var(--cyan-300), white);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.stat-card .lbl { color: rgba(255,255,255,.75); font-size: .9rem; margin-top: 4px; }
+.stat-card .num.num-text {
+  font-size: 1.55rem;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+.stat-card .lbl { color: rgba(255,255,255,.75); font-size: .9rem; margin-top: 4px; line-height: 1.35; }
 
 /* ---------- Page Header (non-home) ---------- */
 .page-hero {
@@ -735,6 +740,7 @@ a, .val, .contact-item .val, .footer li, blockquote, p { overflow-wrap: anywhere
   .hero-stats { margin-top: 48px; gap: 14px; }
   .stat-card { padding: 22px 14px; }
   .stat-card .num { font-size: 1.9rem; }
+  .stat-card .num.num-text { font-size: 1.25rem; }
   .hero-actions .btn { padding: 12px 22px; }
 }
 @media (max-width: 480px) {

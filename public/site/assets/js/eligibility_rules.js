@@ -514,7 +514,7 @@
       requiredQualificationLabel: "Varies by pathway — counselling required",
       description:
         "Cruise hiring is often separate from cargo/tanker cadet routes. RP Nauticals guides Photography and Gym Trainer pathways with training and placement support.",
-      image: "assets/images/placeholders/ship-life.jpg",
+      image: "assets/images/courses/cruise-cover.jpg",
       href: "courses/cruise.html",
       careerPath: [
         { role: "Cruise Ship Photographer / related photo roles", type: "direct" },
